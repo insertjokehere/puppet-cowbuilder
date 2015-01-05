@@ -1,8 +1,0 @@
-# Creates a cowbuilder base image
-define cowbuilder::base(
-  $path=$title,
-  $arch=$::architecture,
-  $dist=$::lsbdistcodename)
-{
-  
-}
