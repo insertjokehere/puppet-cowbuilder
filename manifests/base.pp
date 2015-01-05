@@ -5,7 +5,7 @@ define cowbuilder::base(
   $dist=$::lsbdistcodename,
   $mirror=undef,
   $othermirrors=undef,
-  $keychain=undef,
+  $keyring=undef,
   $components='main',
   $debootstrapopts=undef,
   $extrapackages=undef,
@@ -21,8 +21,8 @@ define cowbuilder::base(
     $param_othermirrors=''
   }
 
-  if ($keychain != undef) {
-    $param_keychain = "--debootstrapopts --keyring=${keychain}"
+  if ($keyring != undef) {
+    $param_keychain = "--debootstrapopts --keyring=${keyring}"
   } else {
     $param_keychain = ''
   }
