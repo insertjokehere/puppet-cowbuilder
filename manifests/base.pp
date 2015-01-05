@@ -16,7 +16,7 @@ define cowbuilder::base(
   if ($othermirrors != undef) {
     validate_array($othermirrors)
     $othm = join($othermirrors,'|')
-    $param_othermirrors="--othermirror ${othm}"
+    $param_othermirrors="--othermirror \"${othm}\""
   } else {
     $param_othermirrors=''
   }
@@ -50,7 +50,7 @@ define cowbuilder::base(
   }
 
   exec { "cowbuilder-create-${title}":
-    command => "cowbuilder --create --distribution ${dist} --architecture ${arch} --basepath ${path} --mirror ${mirror} ${othermirrors} --components \"${components}\" ${param_extrapackages} ${param_httpproxy} --debootstrap ${debootstrap} ${param_debootstrapopts} ${param_keychain}",
+    command => "cowbuilder --create --distribution ${dist} --architecture ${arch} --basepath ${path} --mirror ${mirror} ${param_othermirrors} --components \"${components}\" ${param_extrapackages} ${param_httpproxy} --debootstrap ${debootstrap} ${param_debootstrapopts} ${param_keychain}",
     unless  => "test -d ${path}",
     path    => ['/usr/local/sbin','/usr/local/bin','/usr/sbin','/usr/bin','/sbin','/bin'],
     timeout => 0
