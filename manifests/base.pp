@@ -49,8 +49,15 @@ define cowbuilder::base(
     $param_httpproxy = ''
   }
 
+  if ($arch != $::architecture or ($arch == 'i386' and $::architecture == 'amd64')) {
+    $debootstrap = 'debootstrap'
+  } else {
+    $debootstrap = 'qemu-debootstrap'
+    ensure_packages(['qemu-user-static'])
+  }
+
   exec { "cowbuilder-create-${title}":
-    command => "cowbuilder --create --distribution ${dist} --architecture ${arch} --basepath ${path} --mirror ${mirror} ${param_othermirrors} --components \"${components}\" ${param_extrapackages} ${param_httpproxy} --debootstrap ${debootstrap} ${param_debootstrapopts} ${param_keychain}",
+    command => "cowbuilder --create --distribution ${dist} --architecture ${arch} --basepath ${path} --mirror ${mirror} ${param_othermirrors} --components \"${components}\" ${param_extrapackages} ${param_httpproxy} --debootstrap ${debootstrap} ${param_debootstrapopts} ${param_keychain} --debootstrap ${debootstrap}",
     unless  => "test -d ${path}",
     path    => ['/usr/local/sbin','/usr/local/bin','/usr/sbin','/usr/bin','/sbin','/bin'],
     timeout => 0
