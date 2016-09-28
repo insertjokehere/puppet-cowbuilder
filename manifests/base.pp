@@ -49,10 +49,10 @@ define cowbuilder::base(
   }
 
   if ($arch != $::architecture or ($arch == 'i386' and $::architecture == 'amd64')) {
-    $debootstrap = 'debootstrap'
-  } else {
     $debootstrap = 'qemu-debootstrap'
     ensure_packages(['qemu-user-static'])
+  } else {
+    $debootstrap = 'debootstrap'
   }
 
   exec { "cowbuilder-create-${title}":
