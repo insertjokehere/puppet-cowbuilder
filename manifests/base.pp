@@ -9,7 +9,6 @@ define cowbuilder::base(
   $components='main',
   $debootstrapopts=undef,
   $extrapackages=undef,
-  $debootstrap='debootstrap',
   $httpproxy=undef
 )
 {
