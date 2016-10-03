@@ -50,8 +50,8 @@ define cowbuilder::base(
 
   if ($arch != $::architecture or ($arch == 'i386' and $::architecture == 'amd64')) {
     $debootstrap = 'qemu-debootstrap'
-    $req = [Package['qemu-user-static'], Package['binfmt-support']]
-    ensure_packages(['qemu-user-static', 'binfmt-support'])
+    $req = [Package['qemu-user-static'], Package['binfmt-support'], Package['qemu-user-binfmt']]
+    ensure_packages(['qemu-user-static', 'binfmt-support', 'qemu-user-binfmt'])
   } else {
     $debootstrap = 'debootstrap'
     $req = []
