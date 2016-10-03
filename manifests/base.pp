@@ -50,15 +50,18 @@ define cowbuilder::base(
 
   if ($arch != $::architecture or ($arch == 'i386' and $::architecture == 'amd64')) {
     $debootstrap = 'qemu-debootstrap'
-    ensure_packages(['qemu-user-static'])
+    $req = [Package['qemu-user-static'], Package['binfmt-support']]
+    ensure_packages(['qemu-user-static', 'binfmt-support'])
   } else {
     $debootstrap = 'debootstrap'
+    $req = []
   }
 
   exec { "cowbuilder-create-${title}":
     command => "cowbuilder --create --distribution ${dist} --architecture ${arch} --basepath ${path} --mirror ${mirror} ${param_othermirrors} --components \"${components}\" ${param_extrapackages} ${param_httpproxy} --debootstrap ${debootstrap} ${param_debootstrapopts} ${param_keychain} --debootstrap ${debootstrap}",
     unless  => "test -d ${path}",
     path    => ['/usr/local/sbin','/usr/local/bin','/usr/sbin','/usr/bin','/sbin','/bin'],
-    timeout => 0
+    timeout => 0,
+    require => $req
   }
 }
